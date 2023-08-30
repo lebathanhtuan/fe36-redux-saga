@@ -1,18 +1,5 @@
-export const ahihi = "Ahihi";
-export const abc = "ABC";
-
 function Header({ name, gender, children }) {
-  // const name = props.name;
-  // const gender = props.gender;
-  return (
-    <>
-      <h1>Header</h1>
-      <h3>
-        {name} - {gender}
-      </h3>
-      {children}
-    </>
-  );
+  return <h1 className="bgRed">Header</h1>;
 }
 
 export default Header;

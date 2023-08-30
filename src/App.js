@@ -1,12 +1,18 @@
 import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
-import "./App.css";
 import Header from "./Header";
 import Footer from "./Footer";
 
+import "./App.css";
+
 function App() {
-  const [text, setText] = useState("");
-  console.log("🚀 ~ file: App.js:9 ~ App ~ text:", text);
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState(0);
+
+  const [nameError, setNameError] = useState("");
+  const [priceError, setPriceError] = useState("");
+
   const [list, setList] = useState([
     {
       id: 1,
@@ -24,6 +30,43 @@ function App() {
       price: 10,
     },
   ]);
+  console.log("🚀 ~ file: App.js:28 ~ App ~ list:", list);
+
+  const handleChangeName = (e) => {
+    setName(e.target.value);
+  };
+
+  const handleChangePrice = (e) => {
+    setPrice(parseInt(e.target.value));
+  };
+
+  const handleCreateProduct = () => {
+    let isValid = true;
+    if (!name) {
+      setNameError("Chưa nhập tên sản phẩm");
+      isValid = false;
+    } else {
+      setNameError("");
+    }
+    if (!price) {
+      setPriceError("Chưa nhập giá sản phẩm");
+      isValid = false;
+    } else {
+      setPriceError("");
+    }
+    if (isValid) {
+      setList([
+        ...list,
+        {
+          id: uuidv4(),
+          name: name,
+          price: price,
+        },
+      ]);
+      setName("");
+      setPrice(0);
+    }
+  };
 
   const renderItem = list.map((item) => {
     return (
@@ -33,23 +76,6 @@ function App() {
       </div>
     );
   });
-  // console.log("🚀 ~ file: App.js:71 ~ App ~ renderItem:", renderItem);
-
-  const handleShowMore = () => {
-    setList([
-      ...list,
-      {
-        id: 4,
-        name: text,
-        price: 30,
-      },
-    ]);
-    // list.push({
-    //   id: 4,
-    //   name: "iPhone 15",
-    //   price: 30,
-    // });
-  };
 
   return (
     <div className="App">
@@ -58,9 +84,27 @@ function App() {
       </Header>
       <div>
         <h3>Main</h3>
-        <input type="text" onChange={(e) => setText(e.target.value)} />
+        <div>
+          <label>Name</label>
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => handleChangeName(e)}
+          />
+          <span>{nameError}</span>
+        </div>
+        <div>
+          <label>Price</label>
+          <input
+            type="number"
+            value={price.toString()}
+            onChange={(e) => handleChangePrice(e)}
+          />
+          <span>{priceError}</span>
+        </div>
+        <button onClick={() => handleCreateProduct()}>Create product</button>
+        <hr />
         {renderItem}
-        <button onClick={() => handleShowMore()}>Show more</button>
       </div>
       <Footer />
     </div>
