@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-import Header from "./Header";
-import Footer from "./Footer";
+import Footer from "../Footer";
+import Header from "../layouts/Header";
+import { CustomButton } from "../components/Button/styles";
 
-import "./App.css";
+import * as S from "./styles";
 
 function App() {
   const [name, setName] = useState("");
@@ -78,36 +79,38 @@ function App() {
   });
 
   return (
-    <div className="App">
-      <Header name="Tuấn" gender="male">
-        <h4>ahihi</h4>
-      </Header>
-      <div>
-        <h3>Main</h3>
-        <div>
-          <label>Name</label>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => handleChangeName(e)}
-          />
-          <span>{nameError}</span>
-        </div>
-        <div>
-          <label>Price</label>
-          <input
-            type="number"
-            value={price.toString()}
-            onChange={(e) => handleChangePrice(e)}
-          />
-          <span>{priceError}</span>
-        </div>
-        <button onClick={() => handleCreateProduct()}>Create product</button>
-        <hr />
-        {renderItem}
-      </div>
+    <S.AppWrapper>
+      <Header />
+      <S.MainWrapper>
+        <S.MainContainer>
+          <h3>Main</h3>
+          <div>
+            <label>Name</label>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => handleChangeName(e)}
+            />
+            <span>{nameError}</span>
+          </div>
+          <div>
+            <label>Price</label>
+            <input
+              type="number"
+              value={price.toString()}
+              onChange={(e) => handleChangePrice(e)}
+            />
+            <span>{priceError}</span>
+          </div>
+          <CustomButton onClick={() => handleCreateProduct()}>
+            Create product
+          </CustomButton>
+          <hr />
+          {renderItem}
+        </S.MainContainer>
+      </S.MainWrapper>
       <Footer />
-    </div>
+    </S.AppWrapper>
   );
 }
 
