@@ -1,12 +1,18 @@
 import { ThemeProvider } from "styled-components";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
+// Layout
+import UserLayout from "../layouts/UserLayout";
+import AdminLayout from "../layouts/AdminLayout";
+// User
+import HomePage from "../pages/user/Home";
+import AboutPage from "../pages/user/About";
+import ProductDetailPage from "../pages/user/ProductDetail";
+// Admin
+import AdminDashboardPage from "../pages/admin/Dashboard";
+import AdminUserListPage from "../pages/admin/UserList";
+import AdminProductList from "../pages/admin/ProductList";
+import AdminOrderList from "../pages/admin/OrderList";
 
-import Footer from "../layouts/Footer";
-import Header from "../layouts/Header";
-
-import HomePage from "../pages/Home";
-import AboutPage from "../pages/About";
-import ProductDetailPage from "../pages/ProductDetail";
 import NotFoundPage from "../pages/NotFound";
 
 import { ROUTES } from "../constants/routes";
@@ -17,23 +23,33 @@ import * as S from "./styles";
 function App() {
   return (
     <ThemeProvider theme={light}>
-      <S.AppWrapper>
-        <Header />
-        <S.MainWrapper>
-          <S.MainContainer>
-            <Routes>
-              <Route path={ROUTES.HOME} element={<HomePage />} />
-              <Route path={ROUTES.ABOUT} element={<AboutPage />} />
-              <Route
-                path={ROUTES.PRODUCT_DETAIL}
-                element={<ProductDetailPage />}
-              />
-              <Route path="*" element={<NotFoundPage />} />
-            </Routes>
-          </S.MainContainer>
-        </S.MainWrapper>
-        <Footer />
-      </S.AppWrapper>
+      <Routes>
+        <Route element={<UserLayout />}>
+          <Route path="/" element={<Navigate to={ROUTES.USER.HOME} />} />
+          <Route path={ROUTES.USER.HOME} element={<HomePage />} />
+          <Route path={ROUTES.USER.ABOUT} element={<AboutPage />} />
+          <Route
+            path={ROUTES.USER.PRODUCT_DETAIL}
+            element={<ProductDetailPage />}
+          />
+        </Route>
+        <Route element={<AdminLayout />}>
+          <Route
+            path={ROUTES.ADMIN.DASHBOARD}
+            element={<AdminDashboardPage />}
+          />
+          <Route
+            path={ROUTES.ADMIN.USER_LIST}
+            element={<AdminUserListPage />}
+          />
+          <Route
+            path={ROUTES.ADMIN.PRODUCT_LIST}
+            element={<AdminProductList />}
+          />
+          <Route path={ROUTES.ADMIN.ORDER_LIST} element={<AdminOrderList />} />
+        </Route>
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
     </ThemeProvider>
   );
 }

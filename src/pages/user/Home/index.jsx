@@ -2,9 +2,9 @@ import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { Link, generatePath } from "react-router-dom";
 
-import CustomButton from "../../components/Button";
+import CustomButton from "../../../components/Button";
 
-import { ROUTES } from "../../constants/routes";
+import { ROUTES } from "../../../constants/routes";
 import * as S from "./styles";
 
 const HomePage = () => {
@@ -42,6 +42,10 @@ const HomePage = () => {
 
   const handleCreateProduct = () => {
     let isValid = true;
+    console.log(
+      "🚀 ~ file: index.jsx:45 ~ handleCreateProduct ~ isValid:",
+      isValid
+    );
     if (!name) {
       setNameError("Chưa nhập tên sản phẩm");
       isValid = false;
@@ -73,7 +77,7 @@ const HomePage = () => {
       <div key={item.id}>
         <h2>{item.name}</h2>
         <p>${item.price}</p>
-        <Link to={generatePath(ROUTES.PRODUCT_DETAIL, { id: item.id })}>
+        <Link to={generatePath(ROUTES.USER.PRODUCT_DETAIL, { id: item.id })}>
           Chi tiết
         </Link>
       </div>
@@ -83,7 +87,7 @@ const HomePage = () => {
   return (
     <>
       <h3>Main</h3>
-      <Link to={ROUTES.ABOUT}>About</Link>
+      <Link to={ROUTES.USER.ABOUT}>About</Link>
       <div>
         <label>Name</label>
         <input type="text" value={name} onChange={(e) => handleChangeName(e)} />
@@ -98,9 +102,7 @@ const HomePage = () => {
         />
         <span>{priceError}</span>
       </div>
-      <CustomButton type="primary" onClick={() => handleCreateProduct()}>
-        Create product
-      </CustomButton>
+      <button onClick={() => handleCreateProduct()}>Create product</button>
       <hr />
       {renderItem}
     </>
