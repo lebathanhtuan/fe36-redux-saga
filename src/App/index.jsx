@@ -1,5 +1,6 @@
 import { ThemeProvider } from "styled-components";
 import { Routes, Route, Navigate } from "react-router-dom";
+import { ConfigProvider } from "antd";
 // Layout
 import UserLayout from "../layouts/UserLayout";
 import AdminLayout from "../layouts/AdminLayout";
@@ -22,35 +23,47 @@ import * as S from "./styles";
 
 function App() {
   return (
-    <ThemeProvider theme={light}>
-      <Routes>
-        <Route element={<UserLayout />}>
-          <Route path="/" element={<Navigate to={ROUTES.USER.HOME} />} />
-          <Route path={ROUTES.USER.HOME} element={<HomePage />} />
-          <Route path={ROUTES.USER.ABOUT} element={<AboutPage />} />
-          <Route
-            path={ROUTES.USER.PRODUCT_DETAIL}
-            element={<ProductDetailPage />}
-          />
-        </Route>
-        <Route element={<AdminLayout />}>
-          <Route
-            path={ROUTES.ADMIN.DASHBOARD}
-            element={<AdminDashboardPage />}
-          />
-          <Route
-            path={ROUTES.ADMIN.USER_LIST}
-            element={<AdminUserListPage />}
-          />
-          <Route
-            path={ROUTES.ADMIN.PRODUCT_LIST}
-            element={<AdminProductList />}
-          />
-          <Route path={ROUTES.ADMIN.ORDER_LIST} element={<AdminOrderList />} />
-        </Route>
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
-    </ThemeProvider>
+    <ConfigProvider
+      theme={{
+        token: {
+          colorPrimary: "#ff4d00",
+          borderRadius: 4,
+        },
+      }}
+    >
+      <ThemeProvider theme={light}>
+        <Routes>
+          <Route element={<UserLayout />}>
+            <Route path="/" element={<Navigate to={ROUTES.USER.HOME} />} />
+            <Route path={ROUTES.USER.HOME} element={<HomePage />} />
+            <Route path={ROUTES.USER.ABOUT} element={<AboutPage />} />
+            <Route
+              path={ROUTES.USER.PRODUCT_DETAIL}
+              element={<ProductDetailPage />}
+            />
+          </Route>
+          <Route element={<AdminLayout />}>
+            <Route
+              path={ROUTES.ADMIN.DASHBOARD}
+              element={<AdminDashboardPage />}
+            />
+            <Route
+              path={ROUTES.ADMIN.USER_LIST}
+              element={<AdminUserListPage />}
+            />
+            <Route
+              path={ROUTES.ADMIN.PRODUCT_LIST}
+              element={<AdminProductList />}
+            />
+            <Route
+              path={ROUTES.ADMIN.ORDER_LIST}
+              element={<AdminOrderList />}
+            />
+          </Route>
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </ThemeProvider>
+    </ConfigProvider>
   );
 }
 
