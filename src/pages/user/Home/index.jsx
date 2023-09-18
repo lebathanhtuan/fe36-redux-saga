@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { Link, generatePath } from "react-router-dom";
 import {
@@ -22,11 +22,7 @@ import * as S from "./styles";
 
 const HomePage = () => {
   const [isShowCreateModal, setIsShowCreateModal] = useState(false);
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState(0);
-
-  const [nameError, setNameError] = useState("");
-  const [priceError, setPriceError] = useState("");
+  const [text, setText] = useState("");
 
   const [list, setList] = useState([
     {
@@ -71,14 +67,6 @@ const HomePage = () => {
     },
   ]);
 
-  const handleChangeName = (e) => {
-    setName(e.target.value);
-  };
-
-  const handleChangePrice = (e) => {
-    setPrice(parseInt(e.target.value));
-  };
-
   const handleCreateProduct = (values) => {
     setList([
       ...list,
@@ -91,23 +79,25 @@ const HomePage = () => {
     setIsShowCreateModal(false);
   };
 
-  const renderProductList = list.map((item) => {
-    return (
-      <Col lg={6} md={8} sm={8} xs={12} key={item.id}>
-        <Card size="small" title={item.name}>
-          <p>${item.price}</p>
-          <Space size={24}>
-            <Button type="primary">Mua</Button>
-            <Link
-              to={generatePath(ROUTES.USER.PRODUCT_DETAIL, { id: item.id })}
-            >
-              Chi tiết
-            </Link>
-          </Space>
-        </Card>
-      </Col>
-    );
-  });
+  const renderProductList = useMemo(() => {
+    return list.map((item) => {
+      return (
+        <Col lg={6} md={8} sm={8} xs={12} key={item.id}>
+          <Card size="small" title={item.name}>
+            <p>${item.price}</p>
+            <Space size={24}>
+              <Button type="primary">Mua</Button>
+              <Link
+                to={generatePath(ROUTES.USER.PRODUCT_DETAIL, { id: item.id })}
+              >
+                Chi tiết
+              </Link>
+            </Space>
+          </Card>
+        </Col>
+      );
+    });
+  }, [list]);
 
   return (
     <>
@@ -142,6 +132,7 @@ const HomePage = () => {
           <Row gutter={[16, 16]} style={{ marginTop: 16, marginBottom: 16 }}>
             {renderProductList}
           </Row>
+          <Input onChange={(e) => setText(e.target.value)} />
           <Button onClick={() => setIsShowCreateModal(true)}>
             Create product
           </Button>

@@ -1,25 +1,17 @@
-import { useState } from "react";
+import { useContext } from "react";
+import { Button } from "antd";
+import { ThemeContext } from "../../../../App";
 
 import * as S from "./styles";
 
 function Footer(props) {
-  const [count, setCount] = useState(0);
-
-  const handlePlus = () => {
-    setCount(count + 1);
-  };
-
-  const handleMinus = () => {
-    setCount(count - 1);
-  };
-
+  const { setTheme } = useContext(ThemeContext);
   return (
     <S.FooterWrapper>
       <S.FooterContainer>
         <h2>Footer</h2>
-        <p>{count}</p>
-        <button onClick={() => handleMinus()}>-</button>
-        <button onClick={() => handlePlus()}>+</button>
+        <Button onClick={() => setTheme("dark")}>Dark</Button>
+        <Button onClick={() => setTheme("light")}>Light</Button>
       </S.FooterContainer>
     </S.FooterWrapper>
   );
