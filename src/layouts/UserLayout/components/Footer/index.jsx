@@ -1,17 +1,19 @@
-import { useContext } from "react";
+import { useDispatch } from "react-redux";
 import { Button } from "antd";
-import { ThemeContext } from "../../../../App";
+
+import { setTheme } from "../../../../redux/slicers/common.slice";
 
 import * as S from "./styles";
 
 function Footer(props) {
-  const { setTheme } = useContext(ThemeContext);
+  const dispatch = useDispatch();
+  // setTheme("dark") -> { type: "common/setTheme", payload: "dark" }
   return (
     <S.FooterWrapper>
       <S.FooterContainer>
         <h2>Footer</h2>
-        <Button onClick={() => setTheme("dark")}>Dark</Button>
-        <Button onClick={() => setTheme("light")}>Light</Button>
+        <Button onClick={() => dispatch(setTheme("dark"))}>Dark</Button>
+        <Button onClick={() => dispatch(setTheme("light"))}>Light</Button>
       </S.FooterContainer>
     </S.FooterWrapper>
   );

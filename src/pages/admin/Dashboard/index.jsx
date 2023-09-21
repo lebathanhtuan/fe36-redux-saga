@@ -1,6 +1,8 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import { InputNumber, Button } from "antd";
-import { ThemeContext } from "../../../App";
+import { useDispatch } from "react-redux";
+
+import { setTheme } from "../../../redux/slicers/common.slice";
 
 const DashboardPage = () => {
   const [pin1, setPin1] = useState(0);
@@ -8,7 +10,7 @@ const DashboardPage = () => {
   const [pin3, setPin3] = useState(0);
   const [isLock, setIsLock] = useState(true);
 
-  const { setTheme } = useContext(ThemeContext);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     console.log("Khởi tạo Dashboard");
@@ -35,8 +37,8 @@ const DashboardPage = () => {
       distinctio voluptate similique minima adipisci debitis sint, assumenda
       facilis tempora voluptates sed consequatur earum quam ad. Facere sit
       nostrum saepe.
-      <Button onClick={() => setTheme("dark")}>Dark</Button>
-      <Button onClick={() => setTheme("light")}>Light</Button>
+      <Button onClick={() => dispatch(setTheme("dark"))}>Dark</Button>
+      <Button onClick={() => dispatch(setTheme("light"))}>Light</Button>
     </div>
   );
 };
