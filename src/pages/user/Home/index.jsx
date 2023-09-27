@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { Link, generatePath } from "react-router-dom";
 import {
@@ -14,73 +14,42 @@ import {
   Modal,
   Form,
 } from "antd";
-
-import CustomButton from "../../../components/Button";
+import { useDispatch, useSelector } from "react-redux";
 
 import { ROUTES } from "../../../constants/routes";
+
+import {
+  getProductListRequest,
+  createProductRequest,
+} from "../../../redux/slicers/product.slice";
+
 import * as S from "./styles";
 
 const HomePage = () => {
   const [isShowCreateModal, setIsShowCreateModal] = useState(false);
-  const [text, setText] = useState("");
 
-  const [list, setList] = useState([
-    {
-      id: 1,
-      name: "iPhone 14",
-      price: 20,
-    },
-    {
-      id: 2,
-      name: "Samsung S23",
-      price: 15,
-    },
-    {
-      id: 3,
-      name: "Xiaomi Mi13",
-      price: 10,
-    },
-    {
-      id: 4,
-      name: "Xiaomi Mi13",
-      price: 10,
-    },
-    {
-      id: 5,
-      name: "Xiaomi Mi13",
-      price: 10,
-    },
-    {
-      id: 6,
-      name: "Xiaomi Mi13",
-      price: 10,
-    },
-    {
-      id: 7,
-      name: "Xiaomi Mi13",
-      price: 10,
-    },
-    {
-      id: 8,
-      name: "Xiaomi Mi13",
-      price: 10,
-    },
-  ]);
+  const dispatch = useDispatch();
+
+  const { productList } = useSelector((state) => state.product);
+
+  useEffect(() => {
+    dispatch(getProductListRequest());
+  }, []);
 
   const handleCreateProduct = (values) => {
-    setList([
-      ...list,
-      {
-        id: uuidv4(),
-        name: values.name,
-        price: values.price,
-      },
-    ]);
+    dispatch(
+      createProductRequest({
+        data: {
+          ...values,
+          categoryId: 1,
+        },
+      })
+    );
     setIsShowCreateModal(false);
   };
 
   const renderProductList = useMemo(() => {
-    return list.map((item) => {
+    return productList.data.map((item) => {
       return (
         <Col lg={6} md={8} sm={8} xs={12} key={item.id}>
           <Card size="small" title={item.name}>
@@ -97,7 +66,7 @@ const HomePage = () => {
         </Col>
       );
     });
-  }, [list]);
+  }, [productList.data]);
 
   return (
     <>
@@ -129,10 +98,11 @@ const HomePage = () => {
               </Select>
             </Col>
           </Row>
+          <p>{productList.loading ? "Loading" : "Done"}</p>
+          {productList.error}
           <Row gutter={[16, 16]} style={{ marginTop: 16, marginBottom: 16 }}>
             {renderProductList}
           </Row>
-          <Input onChange={(e) => setText(e.target.value)} />
           <Button onClick={() => setIsShowCreateModal(true)}>
             Create product
           </Button>

@@ -23,6 +23,18 @@
       "name": "iPhone 14",
       "price": 15,
       "categoryId": 1
+    },
+    {
+      "name": "123123",
+      "price": 123123,
+      "categoryId": 1,
+      "id": 5
+    },
+    {
+      "name": "troejoipjhfads",
+      "price": 34234,
+      "categoryId": 1,
+      "id": 6
     }
   ],
   "categories": [
